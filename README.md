@@ -1,45 +1,80 @@
-# Városok Projekt - Telepítési Útmutató
+# Városok Projekt -- Telepítési Útmutató
 
-Ez az útmutató segít beüzemelni a projektet egy új gépen (klónozás után).
+Ez az útmutató segít beüzemelni a projektet egy új gépen (klónozás
+után).
 
 ## 1. Előfeltételek
-Legyen telepítve:
-- PHP (>= 8.2)
-- Composer
-- Node.js & NPM
-- MySQL szerver (pl. XAMPP)
+
+A következők legyenek telepítve: - **PHP (\>= 8.2)** - **Composer** -
+**MySQL szerver** (pl. XAMPP)
 
 ## 2. Telepítés lépései (Parancssorban)
 
-A projekt mappájában állva futtasd le ezeket sorban:
+A projekt mappájában állva futtasd sorban az alábbi lépéseket.
 
 ### A) Keretrendszer fájlok letöltése
-Mivel a `vendor` mappa nincs feltöltve, ezt pótolni kell:
+
+A `vendor` mappa nincs verziókezelésben, ezért pótolni kell:
+
+``` bash
 composer install
+```
 
-# B)Környezeti változók beállítása
-A .env fájl hiányzik (biztonsági okokból), létre kell hozni a példa alapján:
-Windows:
+### B) Környezeti változók beállítása
+
+A `.env` fájl hiányzik (biztonsági okokból). Hozd létre a példa alapján.
+
+**Windows:**
+
+``` bash
 copy .env.example .env
-Mac / Linux:
+```
+
+**Mac / Linux:**
+
+``` bash
 cp .env.example .env
+```
 
-Ezután generálj egy titkosító kulcsot:
+Ezután generálj egy alkalmazáskulcsot:
+
+``` bash
 php artisan key:generate
+```
 
-# C) Adatbázis kapcsolat
-Nyisd meg a létrehozott .env fájlt, és írd át az adatbázis beállításokat:
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=varosok_db
-DB_USERNAME=root
-DB_PASSWORD=
+### C) Adatbázis kapcsolat
 
-# D) Adatbázis és Adatok létrehozása:
-Nyisd meg a phpMyAdmin-t, és hozz létre manuálisan egy üres adatbázist varosok_db néven (utf8mb4_hungarian_ci illesztéssel).
+Nyisd meg a létrehozott `.env` fájlt, és módosítsd az adatbázis
+beállításokat (példa XAMPP-hoz):
 
-Futtasd le ezt a parancsot, ami létrehozza a táblákat (Migráció) és feltölti az adatokkal a txt fájlokból (Seeding):
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=varosok_db
+    DB_USERNAME=root
+    DB_PASSWORD=
+
+### D) Adatbázis és adatok létrehozása
+
+1.  Nyisd meg a **phpMyAdmin**-t.
+2.  Hozz létre egy üres adatbázist `varosok_db` néven
+    (`utf8mb4_hungarian_ci` illesztéssel).
+3.  Futtasd a migrációkat és a seedelő folyamatot:
+
+``` bash
 php artisan migrate:fresh --seed
-(Ha minden zöld, akkor sikeres volt a feltöltés).
+```
+
+## 3. Felhasználói fiókok (Seeding után)
+
+A rendszer automatikusan létrehoz egy admin felhasználót:
+
+-   **Email:** admin@admin.com\
+-   **Jelszó:** password
+
+## 4. Indítás
+
+``` bash
+php artisan serve
+```
 
