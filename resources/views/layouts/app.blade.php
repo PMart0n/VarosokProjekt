@@ -33,7 +33,6 @@
                                         <li><a href="{{ route('fooldal') }}">Főoldal</a></li>
                                         <li><a href="{{ route('adatbazis') }}">Adatbázis</a></li>
                                         <li><a href="{{ route('diagram') }}">Diagram</a></li>
-                                        <li><a href="#">CRUD</a></li>
                                         <li><a href="{{ route('kapcsolat') }}">Kapcsolat</a></li>
                                     </ul>
                                     

@@ -35,4 +35,5 @@ Route::get('/admin', function () {
 })->name('admin');
 
 // CRUD (Ez majd később jön, de a helye itt van)
+Route::get('/crud', function () { return view('crud'); })->name('crud');
 // Route::resource('varosok', ...);
