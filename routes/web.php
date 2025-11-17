@@ -1,21 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UzenetController;
 
-// 1. FŐOLDAL
+// FŐOLDAL
 Route::get('/', function () {
     return view('fooldal');
 })->name('fooldal');
 
-// 2. ADATBÁZIS LISTA
+// ADATBÁZIS LISTA
 Route::get('/adatbazis', function () {
     return view('adatbazis');
 })->name('adatbazis');
 
-// 3. KAPCSOLAT
-Route::get('/kapcsolat', function () {
-    return view('kapcsolat');
-})->name('kapcsolat');
+// KAPCSOLAT (Controller kezeli)
+// Űrlap megjelenítése
+Route::get('/kapcsolat', [UzenetController::class, 'create'])->name('kapcsolat');
+// Adatok mentése (gombnyomás hívja majd)
+Route::post('/kapcsolat', [UzenetController::class, 'store'])->name('kapcsolat.store');
 
 // 4. DIAGRAM
 Route::get('/diagram', function () {
@@ -24,16 +26,13 @@ Route::get('/diagram', function () {
 
 // --- A következőkhöz majd kell jogosultság (Auth), de egyelőre publikusak ---
 
-// 5. ÜZENETEK (Csak bejelentkezve)
-Route::get('/uzenetek', function () {
-    return view('uzenetek');
-})->name('uzenetek');
+// 5. ÜZENETEK (Controller kezeli, listázza az adatokat)
+Route::get('/uzenetek', [UzenetController::class, 'index'])->name('uzenetek');
 
 // 6. ADMIN (Csak adminoknak)
 Route::get('/admin', function () {
     return view('admin');
 })->name('admin');
 
-// CRUD (Ez majd később jön, de a helye itt van)
+// CRUD (Ez majd később, de a helye itt van)
 Route::get('/crud', function () { return view('crud'); })->name('crud');
-// Route::resource('varosok', ...);
