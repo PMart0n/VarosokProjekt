@@ -13,8 +13,8 @@
             <article>
                 <span class="icon fa-edit"></span>
                 <div class="content">
-                    <h3>Adatok Kezelése (CRUD)</h3>
-                    <p>Városok, megyék és lélekszám adatok felvitele, módosítása és törlése az adatbázisból.</p>
+                    <h3>Városok Kezelése (CRUD)</h3>
+                    <p>Új városok felvétele, meglévő városok alapadatainak (név, típus, megye) módosítása és törlése.</p>
                     <ul class="actions">
                         <li><a href="{{ route('crud') }}" class="button primary">Megnyitás</a></li>
                     </ul>

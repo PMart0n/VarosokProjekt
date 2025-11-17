@@ -5,10 +5,10 @@
         <h1>Városok Kezelése (CRUD)</h1>
     </header>
 
-    <p>Itt lehet új városokat felvenni, illetve az "Adatbázis" menüpontban megjelenő adatokat módosítani.</p>
+    <p>Itt lehet új városokat felvenni, illetve a meglévő városok alapadatainak (név, típus, megye) módosítása és törlése.</p>
 
     <ul class="actions">
-        <li><a href="#" class="button primary small">Új város hozzáadása</a></li>
+        <li><a href="{{ route('varosok.create') }}" class="button primary small">Új város hozzáadása</a></li>
     </ul>
 
     <div class="table-wrapper">
@@ -18,33 +18,31 @@
                     <th>ID</th>
                     <th>Város Neve</th>
                     <th>Megye</th>
-                    <th>Típus</th>       <th>Népesség</th>    <th>Műveletek</th>
+                    <th>Típus</th>
+                    <th>Műveletek</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Debrecen</td>
-                    <td>Hajdú-Bihar</td>
-                    <td>Megyeszékhely</td>
-                    <td>200 000</td>
-                    <td>
-                        <a href="#" class="button small">Szerkesztés</a>
-                        <a href="#" class="button small" style="color: #f56a6a;">Törlés</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Szeged</td>
-                    <td>Csongrád-Csanád</td>
-                    <td>Megyeszékhely</td>
-                    <td>160 000</td>
-                    <td>
-                        <a href="#" class="button small">Szerkesztés</a>
-                        <a href="#" class="button small" style="color: #f56a6a;">Törlés</a>
-                    </td>
-                </tr>
+                @foreach($varosok as $varos)
+                    <tr>
+                        <td>{{ $varos->id }}</td>
+                        <td>{{ $varos->nev }}</td>
+                        <td>{{ $varos->megye->nev ?? 'Nincs' }}</td>
+                        <td>{{ $varos->megyeijogu ? 'Megyei jogú' : ($varos->megyeszekhely ? 'Megyeszékhely' : 'Város') }}</td>
+                        <td>
+                            <a href="{{ route('varosok.edit', $varos->id) }}" class="button small">Szerkesztés</a>
+                            
+                            <form action="{{ route('varosok.destroy', $varos->id) }}" method="POST" style="display:inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="button small primary" style="background-color: #f56a6a; box-shadow:none;" onclick="return confirm('Biztosan törölni szeretné?')">Törlés</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
+        
+        {{ $varosok->links() }}
     </div>
 @endsection
