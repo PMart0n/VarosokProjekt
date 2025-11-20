@@ -42,6 +42,11 @@ class UzenetController extends Controller
     //elküldött üzenetek listázása
     public function index()
     {
+        $user = auth()->user();
+        if ($user->role !== 'user' && $user->role !== 'admin') {
+            abort(403); // Hozzáférés megtagadva
+        }
+
         $uzenetek = Uzenet::orderBy('created_at', 'desc')->get();
         return view('uzenetek', compact('uzenetek'));
     }

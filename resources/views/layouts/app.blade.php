@@ -1,10 +1,20 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <title>Városok Projekt</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="is-preload">
 
@@ -29,6 +39,16 @@
                                     <header class="major">
                                         <h2>Menü</h2>
                                     </header>
+                                    <header class="minor">
+                                        @auth
+                                            <p>Üdvözöllek, {{ auth()->user()->name }}!</p>
+                                        @endauth
+
+                                        @guest
+                                            <p>Üdvözöllek, Vendég!</p>
+                                        @endguest
+                                    </header>
+                                    <br>
                                     <ul>
                                         <li><a href="{{ route('fooldal') }}">Főoldal</a></li>
                                         <li><a href="{{ route('adatbazis') }}">Adatbázis</a></li>
@@ -42,12 +62,25 @@
                                         <h2>Fiók</h2>
                                     </header>
                                     <ul>
-                                        <li><a href="#">Bejelentkezés</a></li>
-                                        <li><a href="#">Regisztráció</a></li>
+                                        <li><a href="{{ route('login') }}">Bejelentkezés</a></li>
+                                        <li><a href="{{ route('register') }}">Regisztráció</a></li>
                                         
-                                        <li><a href="{{ route('uzenetek') }}">Üzenetek</a></li>
-                                        <li><a href="{{ route('admin') }}">Admin</a></li>
-                                        <li><a href="#">Kijelentkezés</a></li>
+                                        @auth
+                                            @if(auth()->user()->role === 'user' || auth()->user()->role === 'admin')
+                                                <li><a href="{{ route('uzenetek') }}">Üzenetek</a></li>
+                                            @endif
+                                            @if(auth()->user()->role === 'admin')
+                                                <li><a href="{{ route('admin') }}">Admin</a></li>
+                                            @endif
+                                            <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                Kijelentkezés
+                                            </a></li>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                        @endauth
+                                        
                                     </ul>
                                 </nav>
 

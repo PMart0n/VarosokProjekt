@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UzenetController;
 use App\Http\Controllers\VarosController; 
@@ -24,12 +25,15 @@ Route::get('/diagram', function () {
 })->name('diagram');
 
 //ÜZENETEK
-Route::get('/uzenetek', [UzenetController::class, 'index'])->name('uzenetek');
+Route::get('/uzenetek', [UzenetController::class, 'index'])->middleware(['auth'])->name('uzenetek');
 
 //ADMIN
 Route::get('/admin', function () {
-    return view('admin');
-})->name('admin');
+    if(auth()->check() && auth()->user()->role === 'admin'){
+        return view('admin');
+    }
+    abort(403); // Hozzáférés megtagadva
+})->middleware(['auth'])->name('admin');
 
 // --- CRUD RENDSZER 
 
@@ -40,3 +44,11 @@ Route::resource('varosok', VarosController::class);
 Route::get('/crud', function () {
     return redirect()->route('varosok.index');
 })->name('crud');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
