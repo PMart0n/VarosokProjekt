@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UzenetController;
 use App\Http\Controllers\VarosController;
 use App\Http\Controllers\AdatbazisController;
+use App\Http\Controllers\DiagramController;
 
 //FŐOLDAL
 Route::get('/', function () {
@@ -19,9 +20,7 @@ Route::get('/kapcsolat', [UzenetController::class, 'create'])->name('kapcsolat')
 Route::post('/kapcsolat', [UzenetController::class, 'store'])->name('kapcsolat.store');
 
 //DIAGRAM
-Route::get('/diagram', function () {
-    return view('diagram');
-})->name('diagram');
+Route::get('/diagram', [DiagramController::class, 'index'])->name('diagram');
 
 //ÜZENETEK
 Route::get('/uzenetek', [UzenetController::class, 'index'])->middleware(['auth'])->name('uzenetek');

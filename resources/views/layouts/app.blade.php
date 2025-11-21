@@ -62,9 +62,10 @@
                                         <h2>Fiók</h2>
                                     </header>
                                     <ul>
-                                        <li><a href="{{ route('login') }}">Bejelentkezés</a></li>
-                                        <li><a href="{{ route('register') }}">Regisztráció</a></li>
-                                        
+                                        @guest
+                                            <li><a href="{{ route('login') }}">Bejelentkezés</a></li>
+                                            <li><a href="{{ route('register') }}">Regisztráció</a></li>
+                                        @endguest                                   
                                         @auth
                                             @if(auth()->user()->role === 'user' || auth()->user()->role === 'admin')
                                                 <li><a href="{{ route('uzenetek') }}">Üzenetek</a></li>
