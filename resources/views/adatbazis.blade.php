@@ -18,16 +18,32 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Budapest</td>
-                    <td>Pest</td>
-                    <td>Főváros</td>
-                    <td>1 700 000</td>
-                </tr>
+               @foreach ($varosok as $varos)
+                    @php
+                        // Típus
+                        if ($varos->megyeszekhely) {
+                            $tipus = 'Megye székhely';
+                        } elseif ($varos->megyeijogu) {
+                            $tipus = 'Megyei jogú város';
+                        } else {
+                            $tipus = 'Város';
+                        }
+
+                        // Népesség (első adat, ha létezik)
+                        $nepesseg = $varos->lelekszams->first()->osszesen ?? '—';
+                    @endphp
+
+                    <tr>
+                        <td>{{ $varos->nev }}</td>
+                        <td>{{ $varos->megye->nev ?? '—' }}</td>
+                        <td>{{ $tipus }}</td>
+                        <td>{{ $nepesseg }}</td>
+                    </tr>
+                @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4">Összesen megjelenítve: 1 adat (Minta)</td>
+                    <td colspan="4">Összesen megjelenítve: {{$varos->count()}} adat</td>
                 </tr>
             </tfoot>
         </table>

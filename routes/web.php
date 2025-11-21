@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UzenetController;
-use App\Http\Controllers\VarosController; 
+use App\Http\Controllers\VarosController;
+use App\Http\Controllers\AdatbazisController;
 
 //FŐOLDAL
 Route::get('/', function () {
@@ -11,9 +12,7 @@ Route::get('/', function () {
 })->name('fooldal');
 
 //ADATBÁZIS LISTA (Publikus)
-Route::get('/adatbazis', function () {
-    return view('adatbazis');
-})->name('adatbazis');
+Route::get('/adatbazis', [AdatbazisController::class, 'index'])->name('adatbazis');
 
 //KAPCSOLAT
 Route::get('/kapcsolat', [UzenetController::class, 'create'])->name('kapcsolat');
