@@ -1,51 +1,48 @@
-# Városok Projekt -- Telepítési Útmutató
+# Városok Projekt - Beadandó Feladat
 
-Ez az útmutató segít beüzemelni a projektet egy új gépen (klónozás
-után).
+Ez a Laravel alapú webalkalmazás a Web-programozás II. tárgy beadandó feladata.
 
-## 1. Előfeltételek
+## 🌐 Éles Megtekintés (Nethely)
+Az alkalmazás elérhető és kipróbálható az alábbi linken:
+**[http://varosokprojekt.nhely.hu](http://varosokprojekt.nhely.hu)**
 
-A következők legyenek telepítve: - **PHP (\>= 8.2)** - **Composer** -
-**MySQL szerver** (pl. XAMPP)
+---
 
-## 2. Telepítés lépései (Parancssorban)
+## 🛠️ Helyi Telepítési Útmutató
+Ha le szeretné futtatni a kódot saját gépen, kövesse az alábbi lépéseket.
 
-A projekt mappájában állva futtasd sorban az alábbi lépéseket.
+### 1. Előfeltételek
+Legyen telepítve:
+- PHP (>= 8.2)
+- Composer
+- MySQL szerver (pl. XAMPP)
 
-### A) Keretrendszer fájlok letöltése
+### 2. Telepítés lépései (Parancssorban)
 
-A `vendor` mappa nincs verziókezelésben, ezért pótolni kell:
+A projekt mappájában állva futtasd le ezeket sorban:
 
-``` bash
-composer install
-```
+#### A) Keretrendszer fájlok letöltése
+Mivel a `vendor` mappa nincs verziókezelésben, ezt pótolni kell:
 
-### B) Környezeti változók beállítása
+    composer install
 
-A `.env` fájl hiányzik (biztonsági okokból). Hozd létre a példa alapján.
+#### B) Környezeti változók beállítása
+A `.env` fájl létrehozása a sablonból:
 
-**Windows:**
+Windows:
 
-``` bash
-copy .env.example .env
-```
+    copy .env.example .env
 
-**Mac / Linux:**
+Mac / Linux:
 
-``` bash
-cp .env.example .env
-```
+    cp .env.example .env
 
-Ezután generálj egy alkalmazáskulcsot:
+Ezután generálj egy titkosító kulcsot:
 
-``` bash
-php artisan key:generate
-```
+    php artisan key:generate
 
-### C) Adatbázis kapcsolat
-
-Nyisd meg a létrehozott `.env` fájlt, és módosítsd az adatbázis
-beállításokat (példa XAMPP-hoz):
+#### C) Adatbázis kapcsolat
+Nyisd meg a létrehozott `.env` fájlt, és írd át az adatbázis beállításokat a helyi környezetnek megfelelően (pl. XAMPP):
 
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
@@ -54,27 +51,19 @@ beállításokat (példa XAMPP-hoz):
     DB_USERNAME=root
     DB_PASSWORD=
 
-### D) Adatbázis és adatok létrehozása
+#### D) Adatbázis és Adatok létrehozása
+1. Nyisd meg a **phpMyAdmin**-t.
+2. Hozz létre manuálisan egy üres adatbázist **`varosok_db`** néven (`utf8mb4_hungarian_ci` illesztéssel).
+3. Futtasd le ezt a parancsot a terminálban (ez létrehozza a táblákat és feltölti adatokkal):
 
-1.  Nyisd meg a **phpMyAdmin**-t.
-2.  Hozz létre egy üres adatbázist `varosok_db` néven
-    (`utf8mb4_hungarian_ci` illesztéssel).
-3.  Futtasd a migrációkat és a seedelő folyamatot:
+    php artisan migrate:fresh --seed
 
-``` bash
-php artisan migrate:fresh --seed
-```
+### 3. Felhasználói Fiókok (Seeding után)
+A rendszer automatikusan létrehoz egy admin felhasználót a teszteléshez:
+* **Email:** `admin@admin.com`
+* **Jelszó:** `password`
 
-## 3. Felhasználói fiókok (Seeding után)
+### 4. Indítás
+A fejlesztői szerver indítása:
 
-A rendszer automatikusan létrehoz egy admin felhasználót:
-
--   **Email:** admin@admin.com\
--   **Jelszó:** password
-
-## 4. Indítás
-
-``` bash
-php artisan serve
-```
-
+    php artisan serve
